@@ -64,6 +64,16 @@ class InstallData implements InstallDataInterface
                 ->addAttributeToFilter('entity_id', $categoryIds);
             $tmpArray['entity_type'] = 'product';
             $tmpArray['entity_id'] = $productId;
+            //-----------deal with weried chars in $productName------------------
+            $weriedCharArr = array("&#039;","&#916;","&#954;","&amp;","&alpha;","&beta;","&delta;",
+                "&epsilon;","&gamma;","&gt;","&kappa;","&le;","&lt;","&micro;","&minus;","&mu;","&prime;",
+                "&reg;","3&rsquo;&rarr;5&rsquo;","&szlig;","&theta;","&trade;","&uuml;","&zeta;");
+            foreach ($weriedCharArr as $value) {
+                if(stripos($productName, $value) !== false){
+                    $productName = str_replace($value, '-', $productName);
+                }
+            }
+            //-----------------------------
             $tmpArray['request_path'] = $productName;
             //$tmpArray['target_path'] = 'product';
             $tmpArray['redirect_type'] = 0;
