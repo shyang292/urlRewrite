@@ -83,6 +83,17 @@ class InstallData implements InstallDataInterface
             foreach ($categories as $category) {
                 $categoryId = $category->getId();
                 $categoryName = $category->getName();
+                //replace weried chars
+                $weriedCharArr = array("&#039;","&#916;","&#954;","&amp;","&alpha;","&beta;","&delta;",
+                "&epsilon;","&gamma;","&gt;","&kappa;","&le;","&lt;","&micro;","&minus;","&mu;","&prime;",
+                "&reg;","3&rsquo;&rarr;5&rsquo;","&szlig;","&theta;","&trade;","&uuml;","&zeta;");
+                foreach ($weriedCharArr as $value) {
+                    if(stripos($categoryName, $value) !== false){
+                        $categoryName = str_replace($value, '-', $categoryName);
+                    }
+                }
+
+
                 if($count2 == 1){
                     $tmpArray['url_rewrite_id'] = $urlRewriteId++;
                     $tmpArray['target_path'] = str_replace(' ', '-', 'catalog/product/view/id/'.$productId);
