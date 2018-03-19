@@ -117,12 +117,16 @@ class InstallData implements InstallDataInterface
             echo $count++.'/'.$number; echo "\n";
             //echo "subData is the following: "; echo "\n";
             //print_r($subData); echo "\n";
-            $setup->startSetup();
-            $table = $setup->getTable($tableName);
-            $setup
-                ->getConnection()
-                ->insertMultiple($table, $subData);
-            $setup->endSetup();
+            try {
+                $setup->startSetup();
+                $table = $setup->getTable($tableName);
+                $setup
+                    ->getConnection()
+                    ->insertMultiple($table, $subData);
+                $setup->endSetup();
+            } catch (\Exception $e) {
+                $this->logger->critical($e->getMessage());
+            }
         }
     } 
 
